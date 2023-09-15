@@ -11,9 +11,9 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from dotenv import load_dotenv
 
 import database as db
-import middlewares as mw
-import handlers
-import utils
+import bot.middlewares as mw
+import bot.handlers
+import bot.utils
 
 load_dotenv("../.env")
 
@@ -28,21 +28,21 @@ async def main():
     dp = Dispatcher(storage=MemoryStorage())
     # dp = Dispatcher(storage=RedisStorage.from_url(getenv("REDIS_URL")))
 
-    # Инициализация базы данных
-    await db.proceed_schemas(db.async_engine, db.models.BaseModel.metadata)
+    # Инициализация базы данных (вместо alembic)
+    # await db.proceed_schemas(db.async_engine, db.models.BaseModel.metadata)
 
     # Подключение хэндлеров
-    dp.include_routers(handlers.user_router, handlers.admin_router)
+    dp.include_routers(bot.handlers.user_router, bot.handlers.admin_router)
 
     # Подключение мидлварей
     # dp.message.middleware(mw.DatabaseMiddleware())
 
     # Установка команд в меню
-    await utils.set_commands(bot_obj)
+    await bot.utils.set_commands(bot_obj)
 
     # Подключение функций запуска и остановки
-    dp.startup.register(utils.send_message_startup)
-    dp.shutdown.register(utils.send_message_shutdown)
+    dp.startup.register(bot.utils.send_message_startup)
+    dp.shutdown.register(bot.utils.send_message_shutdown)
 
     # Запуск
     await bot_obj.delete_webhook(drop_pending_updates=True)
