@@ -1,21 +1,14 @@
-import bot  # initial import
-
 import asyncio
 import logging
 from os import getenv
 
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
-from aiogram.fsm.storage.memory import MemoryStorage
-# from aiogram.fsm.storage.redis import RedisStorage
-from dotenv import load_dotenv
+from aiogram.fsm.storage.redis import RedisStorage
 
-import database as db
-import bot.middlewares as mw
 import bot.handlers
 import bot.utils
-
-load_dotenv("../.env")
+import database as db
 
 
 async def main():
@@ -26,7 +19,7 @@ async def main():
 
     # Выбор хранилища
     dp = Dispatcher(storage=MemoryStorage())
-    # dp = Dispatcher(storage=RedisStorage.from_url(getenv("REDIS_URL")))
+    # dp = Dispatcher(storage=RedisStorage(bot.utils.redis))
 
     # Инициализация базы данных (вместо alembic)
     # await db.proceed_schemas(db.async_engine, db.models.BaseModel.metadata)
