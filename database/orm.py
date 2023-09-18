@@ -2,6 +2,7 @@ from typing import Optional
 
 from sqlalchemy.ext.asyncio import async_sessionmaker
 
+from bot.utils import redis
 from database.models import UserModel, AddressModel
 
 
@@ -39,10 +40,12 @@ async def add_user(user_id: int, username: Optional[str], first_name: Optional[s
          None
     """
     async with sessionmaker() as session:
-        session.add(UserModel(user_id=user_id,
-                              username=username,
-                              first_name=first_name,
-                              last_name=last_name))
+        user = UserModel(user_id=user_id,
+                         username=username,
+                         first_name=first_name,
+                         last_name=last_name)
+        session.add(user)
+        await redis.set(name=str(user_id), value=1)
         await session.commit()
 
 
@@ -57,7 +60,8 @@ async def get_user(user_id: int, sessionmaker: async_sessionmaker):
     Returns:
          None
     """
-    async with sessionmaker() as session:
-        # user = (await session.execute(select(UserModel).where(UserModel.user_id == user_id))).one_or_none()
-        user = await session.get(UserModel, user_id)
-        return user
+    # async with sessionmaker() as session:
+    #     # user = (await session.execute(select(UserModel).where(UserModel.user_id == user_id))).one_or_none()
+    #     user = await session.get(UserModel, user_id)
+    #     return user
+    return await redis.get(name=str(user_id))

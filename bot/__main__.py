@@ -19,8 +19,8 @@ async def main():
     bot_obj = Bot(token=getenv("BOT_TOKEN"), parse_mode=ParseMode.HTML)
 
     # Выбор хранилища
-    dp = Dispatcher(storage=MemoryStorage())
-    # dp = Dispatcher(storage=RedisStorage(bot.utils.redis))
+    # dp = Dispatcher(storage=MemoryStorage())
+    dp = Dispatcher(storage=RedisStorage(bot.utils.redis))
 
     # Инициализация базы данных (вместо alembic)
     # await db.proceed_schemas(db.async_engine, db.models.BaseModel.metadata)
