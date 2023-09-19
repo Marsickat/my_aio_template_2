@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  redis:
+    build: database/redis
+    env_file:
+      - .env
+    restart: on-failure
+    ports:
+      - "6378:6378"
+  database:
+    image: postgres:15-alpine
+    env_file:
+      - .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: on-failure
+    ports:
+      - "5433:5433"
+  bot:
+    build: .
+    env_file:
+      - .env
+    restart: always
+    depends_on:
+      - database
+      - redis
+
+
+volumes:
+  pgdata:

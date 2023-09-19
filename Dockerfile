@@ -1,4 +1,4 @@
-FROM python:3.10 as python-base
+FROM python:3.10-slim as python-base
 
 ENV POETRY_VERSION=1.6.1 \
     POETRY_HOME=/opt/poetry \
@@ -17,11 +17,10 @@ COPY --from=poetry-base ${POETRY_VENV} ${POETRY_VENV}
 ENV PATH="${PATH}:${POETRY_VENV}/bin"
 
 WORKDIR /usr/src/app
-COPY ./poetry.lock pyproject.toml ./
+COPY ./ ./
 
 RUN poetry check \
     && poetry install --no-interaction --no-cache --no-root \
-    && poetry install -E emoji \
+    && poetry install -E emoji
 
-COPY ./ ./
 CMD ["poetry", "run", "python", "-m", "bot"]

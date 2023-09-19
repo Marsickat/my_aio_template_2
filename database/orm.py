@@ -2,7 +2,7 @@ from typing import Optional
 
 from sqlalchemy.ext.asyncio import async_sessionmaker
 
-from bot.utils import redis
+from database import redis
 from database.models import UserModel, AddressModel
 
 

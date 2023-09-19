@@ -1,11 +1,11 @@
-run: migrate
+run:
 	poetry run python -m bot
 
 generate:
-	alembic revision -m="$(NAME)" --autogenerate
+	poetry run alembic revision -m="$(NAME)" --autogenerate
 
 migrate:
-	alembic upgrade head
+	poetry run alembic upgrade head
 
 downgrade:
-	alembic downgrade -1
+	poetry run alembic downgrade -1

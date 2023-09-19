@@ -20,7 +20,7 @@ async def main():
 
     # Выбор хранилища
     # dp = Dispatcher(storage=MemoryStorage())
-    dp = Dispatcher(storage=RedisStorage(bot.utils.redis))
+    dp = Dispatcher(storage=RedisStorage(db.redis))
 
     # Инициализация базы данных (вместо alembic)
     # await db.proceed_schemas(db.async_engine, db.models.BaseModel.metadata)
