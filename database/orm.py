@@ -45,7 +45,7 @@ async def add_user(user_id: int, username: Optional[str], first_name: Optional[s
                          first_name=first_name,
                          last_name=last_name)
         session.add(user)
-        await redis.set(name=str(user_id), value=1)
+        await redis.set(name="tg_id_" + str(user_id), value=1)
         await session.commit()
 
 
@@ -64,4 +64,4 @@ async def get_user(user_id: int, sessionmaker: async_sessionmaker):
     #     # user = (await session.execute(select(UserModel).where(UserModel.user_id == user_id))).one_or_none()
     #     user = await session.get(UserModel, user_id)
     #     return user
-    return await redis.get(name=str(user_id))
+    return await redis.get(name="tg_id_" + str(user_id))

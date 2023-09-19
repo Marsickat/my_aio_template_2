@@ -1,3 +1,6 @@
+run: migrate
+	poetry run python -m bot
+
 generate:
 	alembic revision -m="$(NAME)" --autogenerate
 
