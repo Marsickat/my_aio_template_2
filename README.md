@@ -4,7 +4,7 @@
 1) <b>poetry</b> - Установить poetry - https://python-poetry.org/docs/#installation
 2) <b>redis</b> - Установить redis - https://redis.io/docs/getting-started/installation/
 
-Бот запускается командой <b>poetry run python -m bot</b> из папки проекта.
+Бот запускается командой <b>poetry run python -m bot</b> или <b>make run</b> из папки проекта.
 
 
 Alembic:
