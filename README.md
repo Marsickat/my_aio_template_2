@@ -6,6 +6,16 @@
 
 Бот запускается командой <b>poetry run python -m bot</b> или <b>make run</b> из папки проекта.
 
+Если использовать docker:
+При первом запуске использовать команду:
+
+    docker-compose run bot bash -c "poetry run alembic revision -m=init --autogenerate && poetry run alembic upgrade head"
+
+В случае изменений в структуре бота запускать командой:
+
+    docker-compose up --build
+
+
 
 Alembic:
 

@@ -1,5 +1,6 @@
 from typing import Optional
 
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import async_sessionmaker
 
 from database import redis
@@ -45,8 +46,23 @@ async def add_user(user_id: int, username: Optional[str], first_name: Optional[s
                          first_name=first_name,
                          last_name=last_name)
         session.add(user)
-        await redis.set(name="tg_id_" + str(user_id), value=1)
         await session.commit()
+
+
+async def get_addresses(user_id: int, sessionmaker: async_sessionmaker):
+    """
+    Получает email адреса пользователя из базы данных.
+
+    Args:
+        user_id (int): ID пользователя Telegram.
+        sessionmaker (async_sessionmaker): Async_sessionmaker для создания сеанса базы данных.
+
+    Returns:
+         None
+    """
+    async with sessionmaker() as session:
+        test = (await session.execute(select(AddressModel).where(UserModel.user_id == user_id))).scalars()
+        return test
 
 
 async def get_user(user_id: int, sessionmaker: async_sessionmaker):
@@ -60,8 +76,9 @@ async def get_user(user_id: int, sessionmaker: async_sessionmaker):
     Returns:
          None
     """
-    # async with sessionmaker() as session:
-    #     # user = (await session.execute(select(UserModel).where(UserModel.user_id == user_id))).one_or_none()
-    #     user = await session.get(UserModel, user_id)
-    #     return user
-    return await redis.get(name="tg_id_" + str(user_id))
+    user = await redis.get(name="tg_id_" + str(user_id))
+    if not user:
+        async with sessionmaker() as session:
+            user = await session.get(UserModel, user_id)
+            await redis.set(name="tg_id_" + str(user_id), value=1)
+    return user

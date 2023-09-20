@@ -29,6 +29,7 @@ async def cmd_start(message: Message, sessionmaker: async_sessionmaker):
                            message.from_user.first_name,
                            message.from_user.last_name,
                            sessionmaker)
+        await message.answer("Проведена регистрация")
     await message.answer("Здравствуйте, вот вам кнопки", reply_markup=kb.reply.yes_no())
 
 

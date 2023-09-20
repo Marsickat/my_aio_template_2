@@ -49,3 +49,26 @@ async def add_email(message: Message, state: FSMContext, sessionmaker: async_ses
             break
     else:
         await message.answer("Не обнаружил названия почты в сообщении. Пожалуйста, проверьте данные")
+
+
+@router.message(Command("get_emails"))
+async def cmd_add_email(message: Message, sessionmaker: async_sessionmaker):
+    """
+    Обрабатывает команду /get_emails.
+    Выводит список сохраненных email адресов.
+
+    Args:
+        message (Message): Объект сообщения.
+        sessionmaker (async_sessionmaker): Объект sessionmaker.
+
+    Returns:
+        None
+    """
+
+    text = ""
+    for address in await orm.get_addresses(message.from_user.id, sessionmaker):
+        text += f"{address.email}\n"
+    if text:
+        await message.answer(text=text)
+    else:
+        await message.answer(text="Сохраненных email адресов нет")

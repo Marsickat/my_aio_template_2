@@ -16,6 +16,7 @@ async def set_commands(bot: Bot):
         BotCommand(command="start", description="Выбор подачи котлет"),
         BotCommand(command="echo", description="Отправляет вам ваше же сообщение"),
         BotCommand(command="add_email", description="Добавить e-mail"),
+        BotCommand(command="get_emails", description="Посмотреть список e-mail адресов"),
         BotCommand(command="dice", description="Кидает кубик"),
         BotCommand(command="basketball", description="Бросает мяч"),
         BotCommand(command="bowling", description="Бросает шар"),

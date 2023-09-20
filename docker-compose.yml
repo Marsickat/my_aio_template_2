@@ -5,9 +5,12 @@ services:
     build: database/redis
     env_file:
       - .env
+    volumes:
+      - redis-data:/data
     restart: on-failure
     ports:
-      - "6378:6378"
+      - "6379:6379"
+    container_name: temp_redis
   database:
     image: postgres:15-alpine
     env_file:
@@ -16,7 +19,8 @@ services:
       - pgdata:/var/lib/postgresql/data
     restart: on-failure
     ports:
-      - "5433:5433"
+      - "5432:5432"
+    container_name: temp_postgres
   bot:
     build: .
     env_file:
@@ -25,7 +29,9 @@ services:
     depends_on:
       - database
       - redis
+    container_name: temp_bot
 
 
 volumes:
   pgdata:
+  redis-data:
