@@ -7,8 +7,8 @@ from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.fsm.storage.redis import RedisStorage
 
-import bot.handlers
-import bot.utils
+from bot import handlers
+from bot import utils
 import database as db
 
 
@@ -26,17 +26,17 @@ async def main():
     # await db.proceed_schemas(db.async_engine, db.models.BaseModel.metadata)
 
     # Подключение хэндлеров
-    dp.include_routers(bot.handlers.user_router, bot.handlers.admin_router)
+    dp.include_router(handlers.main_router)
 
     # Подключение мидлварей
-    # dp.message.middleware(mw.DatabaseMiddleware())
+    # dp.update.middleware(mw.DatabaseMiddleware())
 
     # Установка команд в меню
-    await bot.utils.set_commands(bot_obj)
+    await utils.set_commands(bot_obj)
 
     # Подключение функций запуска и остановки
-    dp.startup.register(bot.utils.send_message_startup)
-    dp.shutdown.register(bot.utils.send_message_shutdown)
+    dp.startup.register(utils.send_message_startup)
+    dp.shutdown.register(utils.send_message_shutdown)
 
     # Запуск
     await bot_obj.delete_webhook(drop_pending_updates=True)

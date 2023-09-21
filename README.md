@@ -21,18 +21,35 @@
 3. В файле .env в параметре <b>REDIS_PASSWORD</b> и в файле /database/redis/redis.conf в параметры <b>requirepass</b> и <b>masterauth</b> записать ваш пароль
 4. Остальные параметры в файле .env можете изменять по Вашему желанию, если точно знаете что делаете
 
-## Запуск бота
+## Локальный запуск бота
 
-Для запуска бота локально выполните следующую команду из корневой папки проекта:
+1. В файле bot/__init.py раскоментируйте строки с загрузкой переменных виртуального окружения
+2. В файле .env замените значения параметров <b>POSTGRES_HOST</b> и <b>REDIS_HOST</b> на значение <i>localhost</i> и уберите значение параметра <b>REDIS_PASSWORD</b>
+3. Инициализируйте базу данных с помощью команд
+
+```bash
+poetry run alembic revision -m=init --autogenerate
+poetry run alembic upgrade head
+```
+
+4. Для запуска бота выполните следующую команду из корневой папки проекта:
 
 ```bash
 poetry run python -m bot
 ```
 
-Для запуска с помощью docker для инициализации выполните следующую команду:
+## Запуск бота через docker
+
+1. Для запуска с помощью docker для инициализации выполните следующую команду:
 
 ```bash
 docker-compose run bot bash -c "poetry run alembic revision -m=init --autogenerate && poetry run alembic upgrade head"
+```
+
+2. Для запуска бота выполните следующую команду из корневой папки проекта:
+
+```bash
+docker-compose up
 ```
 
 ## Docker
