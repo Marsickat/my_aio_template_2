@@ -21,6 +21,14 @@ services:
     ports:
       - "5432:5432"
     container_name: temp_postgres
+  dbeaver_cloud:
+    image: dbeaver/cloudbeaver
+    env_file:
+      - .env
+    restart: on-failure
+    ports:
+      - "8978:8978"
+    container_name: temp_dbeaver
   bot:
     build: .
     env_file:
@@ -28,6 +36,7 @@ services:
     restart: always
     depends_on:
       - database
+      - dbeaver_cloud
       - redis
     container_name: temp_bot
 

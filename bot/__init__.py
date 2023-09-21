@@ -1,4 +1,6 @@
-from dotenv import load_dotenv
+# Расскоменировать для локального запуска без docker
 
-load_dotenv(".env")
-load_dotenv("../.env")
+# from dotenv import load_dotenv
+#
+# load_dotenv(".env")
+# load_dotenv("../.env")
