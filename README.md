@@ -28,7 +28,7 @@
 3. Инициализируйте базу данных с помощью команд
 
 ```bash
-poetry run alembic revision -m=init --autogenerate
+poetry run alembic revision --m=init --autogenerate
 poetry run alembic upgrade head
 ```
 
@@ -43,7 +43,7 @@ poetry run python -m bot
 1. Для запуска с помощью docker для инициализации выполните следующую команду:
 
 ```bash
-docker-compose run bot bash -c "poetry run alembic revision -m=init --autogenerate && poetry run alembic upgrade head"
+docker-compose run bot bash -c "poetry run alembic revision --m=init --autogenerate && poetry run alembic upgrade head"
 ```
 
 2. Для запуска бота выполните следующую команду из корневой папки проекта:
