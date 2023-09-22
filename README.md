@@ -12,6 +12,7 @@
 
 1. [poetry](https://python-poetry.org/docs/#installation)
 2. [redis](https://redis.io/docs/getting-started/installation/)
+3. [docker](https://docs.docker.com/engine/install/) (только если планируете его использовать)
 
 
 ## Настройка
@@ -25,14 +26,15 @@
 
 1. В файле bot/__init.py раскоментируйте строки с загрузкой переменных виртуального окружения
 2. В файле .env замените значения параметров <b>POSTGRES_HOST</b> и <b>REDIS_HOST</b> на значение <i>localhost</i> и уберите значение параметра <b>REDIS_PASSWORD</b>
-3. Инициализируйте базу данных с помощью команд
+3. Создайте папку database/migrations/versions
+4. Инициализируйте базу данных с помощью команд:
 
 ```bash
-poetry run alembic revision --m=init --autogenerate
+poetry run alembic revision -m=init --autogenerate
 poetry run alembic upgrade head
 ```
 
-4. Для запуска бота выполните следующую команду из корневой папки проекта:
+5. Для запуска бота выполните следующую команду из корневой папки проекта:
 
 ```bash
 poetry run python -m bot
@@ -60,6 +62,20 @@ docker-compose up
 2. [redis:latest](https://hub.docker.com/layers/library/redis/latest/images/sha256-b8d3a1a9e372ee2a64d6b647eb63ed87918876b5a0622f49e00289f04d481f97?context=explore) - Redis
 3. [postgres:15-alpine](https://hub.docker.com/layers/library/postgres/15-alpine/images/sha256-f36c528a2dc8747ea40b4cb8578da69fa75c5063fd6a71dcea3e3b2a6404ff7b?context=explore) - Postgres
 4. [dbeaver/cloudbeaver](https://hub.docker.com/layers/dbeaver/cloudbeaver/latest/images/sha256-c5e94d57994e187882d701b930ee2821c8fffc6c3e0fa4a9e04a9abd31a5cdef?context=explore) - Cloudbeaver
+
+
+## Cloudbeaver
+
+Доступ к сloudbeaver осуществляется по адресу, указанному в файле [docker-compose.yml](https://github.com/Marsickat/my_aio_template_2/blob/master/docker-compose.yml) (в данном случае по адресу [localhost:8978](http://localhost:8978))
+
+
+## Возможные ошибки
+
+<b>Конфикт портов</b>
+
+    Cannot start service redis: Ports are not available: exposing port TCP 0.0.0.0:6379 -> 0.0.0.0:0: listen tcp 0.0.0.0:6379: bind: address already in use
+
+В файле docker-compose.yml поменяйте порт вашего локального хоста, например, "6378:6379"
 
 ## Прочее
 

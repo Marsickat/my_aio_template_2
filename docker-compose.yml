@@ -25,6 +25,8 @@ services:
     image: dbeaver/cloudbeaver
     env_file:
       - .env
+    volumes:
+      - dbeaver-data:/opt/cloudbeaver/conf
     restart: on-failure
     ports:
       - "8978:8978"
@@ -44,3 +46,4 @@ services:
 volumes:
   pgdata:
   redis-data:
+  dbeaver-data:
